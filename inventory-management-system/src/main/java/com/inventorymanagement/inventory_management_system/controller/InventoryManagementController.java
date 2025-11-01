@@ -14,6 +14,15 @@ public class InventoryManagementController {
     @Autowired
     private InventoryManagementRepository inventoryManagementRepo;
 
+    @GetMapping
+    public List<Inventory> getAll() {
+        return inventoryManagementRepo.findAll();
+    }
+
+    @GetMapping("/{myId}")
+    public Inventory getInventoryById(@PathVariable Integer myId) {
+        return inventoryManagementRepo.findById(myId).orElse(null);
+    }
 
     @PostMapping
     public Inventory createInventory(@RequestBody Inventory inventory) {

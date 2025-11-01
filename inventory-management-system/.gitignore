@@ -49,3 +49,6 @@ build/
 *.env
 application-*.yml
 application-*.properties
+
+.idea
+.DS_Store
