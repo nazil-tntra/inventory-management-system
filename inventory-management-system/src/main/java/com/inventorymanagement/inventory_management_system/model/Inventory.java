@@ -6,7 +6,7 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name="inventory_items")
-public class InventoryManagement {
+public class Inventory {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
