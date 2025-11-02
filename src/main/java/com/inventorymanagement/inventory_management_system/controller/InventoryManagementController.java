@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/inventory")
@@ -17,13 +18,20 @@ public class InventoryManagementController {
     private InventoryManagementRepository inventoryManagementRepo;
 
     @GetMapping
-    public List<Inventory> getAll() {
-        return inventoryManagementRepo.findAll();
+    public ResponseEntity<List<Inventory>> getAllInventories() {
+        List<Inventory> inventories = inventoryManagementRepo.findAll();
+        return new ResponseEntity<>(inventories, HttpStatus.OK);
     }
 
     @GetMapping("/{myId}")
-    public Inventory getInventoryById(@PathVariable Integer myId) {
-        return inventoryManagementRepo.findById(myId).orElse(null);
+    public ResponseEntity<?> getInventoryById(@PathVariable Integer myId) {
+        Optional<Inventory> inventory = inventoryManagementRepo.findById(myId);
+        if (inventory.isPresent()) {
+            return ResponseEntity.ok(inventory.get());
+        }else{
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("Inventory not found with ID : " + myId);
+        }
     }
 
     @PostMapping
