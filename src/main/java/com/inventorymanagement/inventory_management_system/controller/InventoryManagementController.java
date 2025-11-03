@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import com.inventorymanagement.inventory_management_system.service.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,8 +15,15 @@ import java.util.Optional;
 @RequestMapping("/inventory")
 public class InventoryManagementController {
 
+    private final InventoryManagementRepository inventoryManagementRepo;
+    private final InventoryServices inventoryServices;
+
     @Autowired
-    private InventoryManagementRepository inventoryManagementRepo;
+    public InventoryManagementController(InventoryManagementRepository inventoryManagementRepo,
+                                         InventoryServices inventoryServices) {
+        this.inventoryManagementRepo = inventoryManagementRepo;
+        this.inventoryServices = inventoryServices;
+    }
 
     @GetMapping
     public ResponseEntity<List<Inventory>> getAllInventories() {
