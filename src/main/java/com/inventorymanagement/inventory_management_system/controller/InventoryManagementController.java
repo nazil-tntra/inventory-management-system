@@ -53,4 +53,15 @@ public class InventoryManagementController {
         }
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateInventoryItem(@PathVariable Integer id, @RequestBody Inventory inventory) {
+        try{
+            Inventory updated = inventoryServices.updateInventoryDetails(id, inventory);
+            return ResponseEntity.ok(updated);
+        }catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("Error while updating inventory: " + e.getMessage());
+        }
+    }
+
 }
