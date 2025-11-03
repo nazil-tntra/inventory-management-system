@@ -64,4 +64,16 @@ public class InventoryManagementController {
         }
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteProduct(@PathVariable Integer id) {
+        Optional<Inventory> inventory = inventoryManagementRepo.findById(id);
+        if (inventory.isPresent()) {
+            inventoryManagementRepo.deleteById(id);
+            return ResponseEntity.ok("Product deleted successfully");
+        }else{
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("Inventory not found with ID : " + id);
+        }
+    }
+
 }
