@@ -54,6 +54,17 @@ public class InventoryManagementController {
         }
     }
 
+    @PostMapping("/add-multiple")
+    public ResponseEntity<?> addMultipleInventories(@RequestBody List<Inventory> inventories) {
+        try{
+            List<Inventory> savedInventories = inventoryManagementRepo.saveAll(inventories);
+            return  ResponseEntity.status(HttpStatus.CREATED).body(savedInventories);
+        }catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("Error while adding inventories: " + e.getMessage());
+        }
+    }
+
     @PutMapping("/{id}")
     public ResponseEntity<?> updateInventoryItem(@PathVariable Integer id, @RequestBody Inventory inventory) {
         try{
