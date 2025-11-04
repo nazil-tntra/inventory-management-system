@@ -32,14 +32,14 @@ public class InventoryManagementController {
         return new ResponseEntity<>(inventories, HttpStatus.OK);
     }
 
-    @GetMapping("/{myId}")
-    public ResponseEntity<?> getInventoryById(@PathVariable Integer myId) {
-        Optional<Inventory> inventory = inventoryManagementRepo.findById(myId);
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getInventoryById(@PathVariable Integer id) {
+        Optional<Inventory> inventory = inventoryManagementRepo.findById(id);
         if (inventory.isPresent()) {
             return ResponseEntity.ok(inventory.get());
         }else{
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body("Inventory not found with ID : " + myId);
+                    .body("Inventory not found with ID : " + id);
         }
     }
 
@@ -69,6 +69,17 @@ public class InventoryManagementController {
     public ResponseEntity<?> updateInventoryItem(@PathVariable Integer id, @RequestBody Inventory inventory) {
         try{
             Inventory updated = inventoryServices.updateInventoryDetails(id, inventory);
+            return ResponseEntity.ok(updated);
+        }catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("Error while updating inventory: " + e.getMessage());
+        }
+    }
+
+    @PatchMapping("{id}")
+    public ResponseEntity<?> updateInventoryPatch(@PathVariable Integer id, @RequestBody Inventory inventory) {
+        try{
+            Inventory updated = inventoryServices.updateInventoryPartially(id, inventory);
             return ResponseEntity.ok(updated);
         }catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)

@@ -13,10 +13,10 @@ public class Inventory {
     private Integer id;
 
     private String name;
-    private int quantity;
+    private Integer quantity;
     private String description;
-    private double purchase_price;
-    private double selling_price;
+    private Double purchase_price;
+    private Double selling_price;
 
     public Integer getId() {
         return id;
@@ -34,11 +34,11 @@ public class Inventory {
         this.name = name;
     }
 
-    public int getQuantity() {
+    public Integer getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(int quantity) {
+    public void setQuantity(Integer quantity) {
         this.quantity = quantity;
     }
 
@@ -50,19 +50,19 @@ public class Inventory {
         this.description = description;
     }
 
-    public double getPurchase_price() {
+    public Double getPurchase_price() {
         return purchase_price;
     }
 
-    public void setPurchase_price(double purchase_price) {
+    public void setPurchase_price(Double purchase_price) {
         this.purchase_price = purchase_price;
     }
 
-    public double getSelling_price() {
+    public Double getSelling_price() {
         return selling_price;
     }
 
-    public void setSelling_price(double selling_price) {
+    public void setSelling_price(Double selling_price) {
         this.selling_price = selling_price;
     }
 

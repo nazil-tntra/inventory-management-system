@@ -30,6 +30,30 @@ public class InventoryServices {
     }
 
 
+    public Inventory updateInventoryPartially(Integer id, Inventory updatedInventory) {
+        Inventory existing = inventoryManagementRepo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Inventory not found"));
+
+        if (updatedInventory.getName() != null) {
+            existing.setName(updatedInventory.getName());
+        }
+        if (updatedInventory.getQuantity() != null) {
+            existing.setQuantity(updatedInventory.getQuantity());
+        }
+        if (updatedInventory.getSelling_price() != null) {
+            existing.setSelling_price(updatedInventory.getSelling_price());
+
+        }if (updatedInventory.getPurchase_price() != null) {
+            existing.setPurchase_price(updatedInventory.getPurchase_price());
+        }
+        if (updatedInventory.getDescription() != null) {
+            existing.setDescription(updatedInventory.getDescription());
+        }
+
+        return inventoryManagementRepo.save(existing);
+    }
+
+
     public Map<String, Double> calculateInventoryValuation() {
         Double purchaseValue = inventoryManagementRepo.getTotalPurchaseValue();
         Double sellingValue = inventoryManagementRepo.getTotalSellingValue();
