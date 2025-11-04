@@ -24,9 +24,25 @@ public class InventoryServices {
         existing.setPurchase_price(updatedInventory.getPurchase_price());
         existing.setDescription(updatedInventory.getDescription());
 
+        Double baseSellingPrice = updatedInventory.getSelling_price();
+        Double adjustedPrice = applyDynamicPricing(baseSellingPrice, updatedInventory.getQuantity());
+        existing.setSelling_price(adjustedPrice);
+
         Inventory saved = inventoryManagementRepo.save(existing);
 
         return saved;
+    }
+
+    private Double applyDynamicPricing(Double basePrice, int quantity) {
+        Double finalPrice;
+        if (quantity < 5) {
+            finalPrice = basePrice * 1.10;
+        } else if (quantity > 20) {
+            finalPrice = basePrice * 0.95;
+        } else {
+            finalPrice = basePrice;
+        }
+        return Math.round(finalPrice * 100.0) / 100.0;
     }
 
 
@@ -39,6 +55,12 @@ public class InventoryServices {
         }
         if (updatedInventory.getQuantity() != null) {
             existing.setQuantity(updatedInventory.getQuantity());
+            
+            Double baseSellingPrice = existing.getSelling_price();
+            int qty = existing.getQuantity();
+
+            Double adjustedPrice = applyDynamicPricing(baseSellingPrice, qty);
+            existing.setSelling_price(adjustedPrice);
         }
         if (updatedInventory.getSelling_price() != null) {
             existing.setSelling_price(updatedInventory.getSelling_price());

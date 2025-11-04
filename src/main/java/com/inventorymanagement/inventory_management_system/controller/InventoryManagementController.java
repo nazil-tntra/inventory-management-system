@@ -76,7 +76,7 @@ public class InventoryManagementController {
         }
     }
 
-    @PatchMapping("{id}")
+    @PatchMapping("/{id}")
     public ResponseEntity<?> updateInventoryPatch(@PathVariable Integer id, @RequestBody Inventory inventory) {
         try{
             Inventory updated = inventoryServices.updateInventoryPartially(id, inventory);
