@@ -5,6 +5,9 @@ import com.inventorymanagement.inventory_management_system.repository.InventoryM
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Service
 public class InventoryServices {
 
@@ -17,7 +20,8 @@ public class InventoryServices {
 
         existing.setName(updatedInventory.getName());
         existing.setQuantity(updatedInventory.getQuantity());
-        existing.setPrice(updatedInventory.getPrice());
+        existing.setSelling_price(updatedInventory.getSelling_price());
+        existing.setPurchase_price(updatedInventory.getPurchase_price());
         existing.setDescription(updatedInventory.getDescription());
 
         Inventory saved = inventoryManagementRepo.save(existing);
@@ -26,5 +30,18 @@ public class InventoryServices {
     }
 
 
+    public Map<String, Double> calculateInventoryValuation() {
+        Double purchaseValue = inventoryManagementRepo.getTotalPurchaseValue();
+        Double sellingValue = inventoryManagementRepo.getTotalSellingValue();
+
+        Map<String, Double> result = new HashMap<>();
+        result.put("totalPurchaseValue", purchaseValue != null ? purchaseValue : 0.0);
+        result.put("totalSellingValue", sellingValue != null ? sellingValue : 0.0);
+        result.put("potentialProfit", (sellingValue != null && purchaseValue != null)
+                ? (sellingValue - purchaseValue)
+                : 0.0);
+
+        return result;
+    }
 
 }

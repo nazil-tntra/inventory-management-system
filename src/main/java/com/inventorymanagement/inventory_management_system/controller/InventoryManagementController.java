@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import com.inventorymanagement.inventory_management_system.service.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -76,4 +77,20 @@ public class InventoryManagementController {
         }
     }
 
+    @GetMapping("/valuation")
+    public ResponseEntity<String> getInventoryValuation() {
+        Map<String, Double> result = inventoryServices.calculateInventoryValuation();
+
+        String responseMessage = String.format(
+                "Total Inventory Valuation:\n" +
+                        "- Purchase Value: ₹ %.2f\n" +
+                        "- Selling Value: ₹ %.2f\n" +
+                        "- Estimated Profit: ₹ %.2f",
+                result.get("totalPurchaseValue"),
+                result.get("totalSellingValue"),
+                result.get("potentialProfit")
+        );
+
+        return ResponseEntity.ok(responseMessage);
+    }
 }
